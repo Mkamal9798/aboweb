@@ -1,0 +1,17 @@
+{
+  "name": "A B O W E B",
+  "author": {
+    "name": "kamal marwane",
+    "email": "mkamal@myopla.com",
+    "url": ""
+  },
+  "defaultLocale": "en",
+  "private": true,
+  "location": {
+    "support": {
+      "ticket_sidebar": "http://localhost:8080/sidebar"
+    }
+  },
+  "version": "1.0",
+  "frameworkVersion": "2.0"
+}
