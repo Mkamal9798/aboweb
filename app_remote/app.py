@@ -89,58 +89,73 @@ def show_tasks():
     r = requests.post(url_auth, headers=header)
     if r.status_code == 200:
         token = r.json()
-        header2 = {'Authorization': 'Bearer {}'.format("87cfa004-69d2-4888-8af6-10635fc96129")}
+        header2= {'Authorization': 'Bearer {}'.format(token['access_token']), 'Content-Type': 'application/json'}
         refEditeur=request.forms.get('refEditeur')
         url_post='https://api.mahalo-app.io/aboweb/editeur/68/action?refEditeur='+ refEditeur
 
         
+
         codeClient = 14449
-        newAction = []
-        newAction["codeClient"] = codeClient
 
         #Valeur possible : Courrier / Email / Tel / SMS / Notes / Ticket / Pige
-        newAction["type"] = "Email" 
-        newAction["object"] = "RELANCE EMAIL"
+        Email = "Email" 
+        RELANCE_EMAIL = "RELANCE EMAIL"
             
         date_time = datetime.utcnow().isoformat(timespec='seconds')
         date_time=date_time+".000"
 
-        newAction["date"] = date_time
+        date_date = date_time
 
 
         heure = datetime.now(pytz.timezone('Europe/Paris'))
         heure=heure.isoformat()
         heure=heure[11:16]
 
-        newAction["refEtat"] = 1 
-        newAction["etatAction"] = "false" 
+        refEtat = 1 
+        etatAction = False
             
-        newAction["rappel"] = "true"
-        heure_rappel = datetime("2021-12-12 15:40",pytz.timezone('Europe/Paris'))
-        heure_rappel=heure_rappel.isoformat()
-        newAction["heureRappel"] = heure_rappel[11:16]
+        rappel = True
+        heure_rappel = "15:40"
 
-
-        date_rappel = datetime.utcnow().isoformat(timespec='seconds')
-        date_rappel=date_rappel+".000"
-
-        newAction["dateRappel"] = date_rappel
-        newAction["utilRappel"] = "SandBox Trias " 
-        newAction["rappelEmailAddress"] = "guillaume@trias.fr"
+        dateRappel = "2021-12-11T23:00:00.000"
+        utilRappel = "Test test " 
+        rappelEmailAddress = "help@tbsblue.com"
             
-        newAction["etatRappel"] = 0 
-        newAction["rappelEmail"] = 0 
+        etatRappel = 0 
+        rappelEmail = 0 
 
 
-        newAction["texte"] = "Texte du mail pour Tester l'action"
+        texte = "Texte du mail pour Tester l'action"
 
 
-        req = requests.post(url_post, headers=header2,data=json.dumps(newAction))
+        header2= {'Authorization': 'Bearer {}'.format("bd01fa8f-3138-4f1a-801e-e496dffdf966"), 'Content-Type': 'application/json'}
+        url_post='https://api.mahalo-app.io/aboweb/editeur/68/action?refEditeur=68'
+
+
+        action_json={
+                    "codeClient":codeClient,
+                    "type":Email,
+                    "object":RELANCE_EMAIL,
+                    "date":date_date,
+                    "heure":heure,
+                    "refEtat":refEtat,
+                    "etatAction":etatAction,
+                    "rappel":rappel,
+                    "heureRappel":heure_rappel,
+                    "dateRappel":dateRappel,
+                    "utilRappel":utilRappel,
+                    "rappelEmailAddress":rappelEmailAddress,
+                    "etatRappel":etatRappel,
+                    "rappelEmail":rappelEmail,
+                    "texte":texte
+                    }
+        #print(action_json)
+        req = requests.post(url_post, headers=header2,data=json.dumps(action_json))
+
         if req.status_code == 200:
             print("GOOD WORK")
         else :
             print(req.status_code)
-            print(Response)
 
     else:
         msg = 'Problem with the request: {} {}'.format(r.status_code, r.reason)
